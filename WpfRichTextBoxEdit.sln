@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfRichTextBoxEdit", "WpfRichTextBoxEdit\WpfRichTextBoxEdit.csproj", "{E6B528F2-3CB2-4C6D-8E3A-B21ACB2BF34A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E6B528F2-3CB2-4C6D-8E3A-B21ACB2BF34A}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{E6B528F2-3CB2-4C6D-8E3A-B21ACB2BF34A}.Debug|x86.ActiveCfg = Debug|x86
+		{E6B528F2-3CB2-4C6D-8E3A-B21ACB2BF34A}.Debug|x86.Build.0 = Debug|x86
+		{E6B528F2-3CB2-4C6D-8E3A-B21ACB2BF34A}.Release|Any CPU.ActiveCfg = Release|x86
+		{E6B528F2-3CB2-4C6D-8E3A-B21ACB2BF34A}.Release|x86.ActiveCfg = Release|x86
+		{E6B528F2-3CB2-4C6D-8E3A-B21ACB2BF34A}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {319DDE3D-448E-4EB6-B26E-1192B1DEE7F4}
+	EndGlobalSection
+EndGlobal

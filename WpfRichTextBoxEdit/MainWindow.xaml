@@ -1,0 +1,202 @@
+﻿<Window x:Class="WpfRichTextBoxEdit.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:WpfRichTextBoxEdit.Resources"
+        Title="MainWindow" Height="700" Width="1024" ResizeMode="NoResize">
+    <Window.Resources>
+        <local:FontColorSource x:Key="FontColor"/>
+        <local:FontFamilySource x:Key="FontFamily"/>
+        <local:FontSizeSource x:Key="FontSize"/>
+    </Window.Resources>
+    <Grid Background="AliceBlue" Margin="0,0,13,12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition />
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="15*"/>
+                <ColumnDefinition Width="80*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Grid.Column="1" Visibility="Collapsed">
+                <TextBlock Text="标题" VerticalAlignment="Center" Margin="20,0,10,0" FontSize="16" FontWeight="Bold"/>
+                <TextBox x:Name="txtboxTitle" VerticalAlignment="Center" Width="600"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Visibility="Visible">
+                <Button x:Name="btnOpen" Height="35" Width="35"  Click="btnOpen_Click" ToolTip="打开文件">
+                    <Image Source="ICOS/TextEdit/btnopen.png" />
+                </Button>
+                <Button x:Name="btnSave" Height=" 35" Width="35" ToolTip="保存文件" Click="btnSave_Click">
+                    <Image Source="ICOS/TextEdit/btnSave.png"/>
+                </Button>
+                <Button x:Name="btnPrint" Height="35" Width="35" ToolTip="打印" Click="btnPrint_Click">
+                    <Image Source="ICOS/TextEdit/btnPrint.png"/>
+                </Button>
+
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"  Grid.Column="2" HorizontalAlignment="Right">
+                <Button x:Name="btnAddImage" Height="35" Width="35" ToolTip="添加图片" Click="btnAddImage_Click">
+                    <Image Source="ICOS/TextEdit/btnAddPic.png"/>
+                </Button>
+            </StackPanel>
+
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" Background="#E1EBF7">
+                <StackPanel Orientation="Horizontal" Margin="3">
+                    <Button Width="30" Height="30" ToolTip="撤销" Click="Button_Click">
+                        <Image Source="ICOS\TextEdit\EditUndo.png" />
+                    </Button>
+                    <Button  Width="30" Height="30" ToolTip="恢复" Click="Button_Click_1">
+                        <Image Source="ICOS\TextEdit\EditRedo.png" />
+                    </Button>
+                </StackPanel>
+                <Border BorderBrush="Gray" BorderThickness="0.5" Margin="5,0" />
+                <StackPanel Orientation="Horizontal" Margin="3">
+                    <Button Command="ApplicationCommands.Cut" Width="30" Height="30" CommandTarget="{Binding ElementName=rtbMain}" ToolTip="剪切">
+                        <Image Source="ICOS\TextEdit\editcut.png" />
+                    </Button>
+                    <Button Command="ApplicationCommands.Copy" Width="30" Height="30" CommandTarget="{Binding ElementName=rtbMain}" ToolTip="复制">
+                        <Image Source="ICOS\TextEdit\EditCopy.png" />
+                    </Button>
+                    <Button Command="ApplicationCommands.Paste" Width="30" Height="30" CommandTarget="{Binding ElementName=rtbMain}" ToolTip="粘贴">
+                        <Image Source="ICOS\TextEdit\EditPaste.png" />
+                    </Button>
+                </StackPanel>
+                <Border BorderBrush="Gray" BorderThickness="0.5" Margin="5,0" />
+                <StackPanel Orientation="Horizontal" >
+                    <ComboBox x:Name="comboBoxFontFamily" Width="100" Height="30" ToolTip="字体样式" ItemsSource="{StaticResource ResourceKey=FontFamily}" SelectionChanged="comboBoxFontFamily_SelectionChanged">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding Name}" FontFamily="{Binding Name}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <ComboBox x:Name="comboBoxFontSize" Width="50" Height="30" ToolTip="字体字号" ItemsSource="{StaticResource ResourceKey=FontSize}" SelectionChanged="comboBoxFontSize_SelectionChanged"/>
+                    <ComboBox x:Name="comboBoxFontColor" Width="130" Height="30" ToolTip="字体颜色" HorizontalContentAlignment="Stretch" 
+                              ItemsSource="{StaticResource ResourceKey=FontColor}" SelectionChanged="comboBoxFontColor_SelectionChanged">
+                        <ComboBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel></VirtualizingStackPanel>
+                            </ItemsPanelTemplate>
+                        </ComboBox.ItemsPanel>
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label  Background="{Binding}" Width="16" Height="16"></Label>
+                                    <Label Content="{Binding}" VerticalAlignment="Top"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+                <Button Command="EditingCommands.ToggleBold" Width="30" Height="30" CommandTarget="{Binding ElementName=rtbMain}" ToolTip="加粗">
+                    <TextBlock FontWeight="Bold" Foreground="Black" FontSize="16">B</TextBlock>
+                </Button>
+                <Button Command="EditingCommands.ToggleItalic" Width="30" Height="30" CommandTarget="{Binding ElementName=rtbMain}" ToolTip="斜体">
+                    <TextBlock FontWeight="Bold" FontStyle="Italic"  Foreground="Black" FontSize="16">I</TextBlock>
+                </Button>
+                <Button Command="EditingCommands.ToggleUnderline" Width="30" Height="30" CommandTarget="{Binding ElementName=rtbMain}" ToolTip="下划线">
+                    <TextBlock TextDecorations="Underline"  Foreground="Black" FontSize="16">U</TextBlock>
+                </Button>
+                <Button Command="EditingCommands.IncreaseFontSize" Width="30" Height="30" CommandTarget="{Binding ElementName=rtbMain}" ToolTip="增大字体">
+                    <Image Source="ICOS\TextEdit\CharacterGrowFont.png" />
+                </Button>
+                <Button Command="EditingCommands.DecreaseFontSize" Width="30" Height="30" CommandTarget="{Binding ElementName=rtbMain}" ToolTip="缩小字体">
+                    <Image Source="ICOS\TextEdit\CharacterShrinkFont.png" />
+                </Button>
+                <Button x:Name="btnInsertTable" Content="插入表格" Width="60" Height="30" Click="btnInsertTable_Click" />
+                <Button x:Name="btnMerge" Content="合并" Width="30" Height="30" Visibility="Collapsed" Click="btnMerge_Click" />
+                <Button x:Name="btnSplit" Content="拆分" Width="30" Height="30" Visibility="Collapsed" Click="btnMerge_Click_1" />
+                <Button x:Name="btnInsertRow" Content="插入行" Width="40" Height="30" Visibility="Collapsed" Click="btnInsertRow_Click" />
+                <Button x:Name="btnRemoveRow" Content="删除行" Width="40" Height="30" Visibility="Collapsed" Click="btnRemoveRow_Click" />
+                <Button x:Name="btnInsertColumn" Content="插入列" Width="40" Height="30" Visibility="Collapsed" Click="btnInsertColumn_Click"/>
+                <Button x:Name="btnRemoveColumn" Content="删除列" Width="40" Height="30" Visibility="Collapsed" Click="btnInsertColumn_Click_1"/>
+                <Border BorderBrush="Gray" BorderThickness="0.5" Margin="5,0"/>
+                <StackPanel Orientation="Horizontal">
+                    <Button Command="EditingCommands.AlignLeft" Width="30" Height="30" CommandTarget="{Binding ElementName=rtbMain}" ToolTip="文本左对齐">
+                        <Image Source="ICOS\TextEdit\ParagraphLeftJustify.png" />
+                    </Button>
+                    <Button Command="EditingCommands.AlignCenter" Width="30" Height="30" CommandTarget="{Binding ElementName=rtbMain}" ToolTip="文本居中">
+                        <Image Source="ICOS\TextEdit\ParagraphCenterJustify.png" />
+                    </Button>
+                    <Button Command="EditingCommands.AlignRight" Width="30" Height="30" CommandTarget="{Binding ElementName=rtbMain}" ToolTip="文本右对齐">
+                        <Image Source="ICOS\TextEdit\ParagraphRightJustify.png" />
+                    </Button>
+                    <Button Command="EditingCommands.AlignJustify" Width="30" Height="30" CommandTarget="{Binding ElementName=rtbMain}" ToolTip="文本对齐">
+                        <Image Source="ICOS\TextEdit\ParagraphFullJustify.png" />
+                    </Button>
+                    <Button Command="EditingCommands.IncreaseIndentation" Width="30" Height="30" CommandTarget="{Binding ElementName=rtbMain}" ToolTip="增加缩进">
+                        <Image Source="ICOS\TextEdit\ParagraphIncreaseIndentation.png" />
+                    </Button>
+                    <Button Command="EditingCommands.DecreaseIndentation" Width="30" Height="30" CommandTarget="{Binding ElementName=rtbMain}" ToolTip="减少缩进">
+                        <Image Source="ICOS\TextEdit\ParagraphDecreaseIndentation.png" />
+                    </Button>
+                </StackPanel>
+                <Border BorderBrush="Gray" BorderThickness="0.5" Margin="5,0"/>
+                <StackPanel Orientation="Horizontal" Visibility="Collapsed">
+                    <Button Command="EditingCommands.ToggleBullets" Width="30" Height="30" CommandTarget="{Binding ElementName=rtbMain}" ToolTip="无序列表">
+                        <Image Source="ICOS\TextEdit\ListBullets.png" />
+                    </Button>
+                    <Button Command="EditingCommands.ToggleNumbering" Width="30" Height="30" CommandTarget="{Binding ElementName=rtbMain}"  ToolTip="项目编号">
+                        <Image Source="ICOS\TextEdit\ListNumbering.png" />
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+            <Grid Grid.Row="1">
+                <DockPanel>
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
+                        <RichTextBox x:Name="rtbMain" Height="460" Width="380" AcceptsTab="True" VerticalScrollBarVisibility="Auto"  Padding="10">
+                            <RichTextBox.Style>
+                                <Style TargetType="{x:Type RichTextBox}" >
+                                    <Setter Property="MinHeight" Value="200"/>
+                                    <Setter Property="Background" Value="{x:Null}"/>
+                                    <Setter Property="BorderBrush" Value="{x:Null}"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="Padding" Value="10"/>
+                                    <Setter Property="VerticalScrollBarVisibility" Value="Visible"/>
+                                    <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"></Setter>
+                                    <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                                </Style>
+                            </RichTextBox.Style>
+                            <!--<FlowDocument LineHeight="5"  >
+
+                            </FlowDocument>-->
+                        </RichTextBox>
+                    </ScrollViewer>
+                </DockPanel>
+            </Grid>
+
+        </Grid>
+        <StackPanel x:Name="stPanel"  Grid.Column="1" Grid.Row="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+            </Grid>
+            <Grid Grid.Row="0" Height="19" Margin="10,0,0,0">
+                <Button x:Name="btnOK" Content="确定" Width="70" VerticalAlignment="Center" HorizontalAlignment="Left" Click="btnOK_Click" />
+                <Button x:Name="btnCancel" Content="取消" Width="70" VerticalAlignment="Center" HorizontalAlignment="Right" Click="btnCancel_Click" />
+            </Grid>
+            <Grid Grid.Row="1">
+                <DockPanel>
+                    <TextBlock x:Name="txtMouseEnter"  Text="CellEnter:" Margin="10 0 10 0"></TextBlock>
+                    <TextBlock x:Name="txtMouseLeave"  Text="CellLeave:" Margin="10 0 10 0"></TextBlock>
+                    <TextBlock x:Name="txtTabLeave"  Text="TabLeave:" Margin="10 0 10 0"></TextBlock>
+                    <TextBlock x:Name="txtMouseMove"  Text="MouseMove:" Margin="10 0 10 0"></TextBlock>
+                </DockPanel>
+            </Grid>
+
+
+        </StackPanel>
+    </Grid>
+</Window>
