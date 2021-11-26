@@ -34,7 +34,7 @@
                 <Button x:Name="btnPrint" Height="35" Width="35" ToolTip="打印" Click="btnPrint_Click">
                     <Image Source="ICOS/TextEdit/btnPrint.png"/>
                 </Button>
-
+                <Button x:Name="pdfResolve" Content="OpenPDF" Click="pdfResolve_Click"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal"  Grid.Column="2" HorizontalAlignment="Right">
                 <Button x:Name="btnAddImage" Height="35" Width="35" ToolTip="添加图片" Click="btnAddImage_Click">

@@ -289,5 +289,18 @@ namespace WpfRichTextBoxEdit
         {
             richTxtHelp.InsertTable(5, 4);
         }
+
+        private void pdfResolve_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog open = new OpenFileDialog();
+            open.FileName = "";
+            open.DefaultExt = ".pdf";
+            open.Filter = "pdf文件(.pdf)|*.pdf";
+
+            if ((bool)open.ShowDialog())
+            {
+                Common.PdfHelp.OpenFile(open.FileName);
+            }
+        }
     }
 }
