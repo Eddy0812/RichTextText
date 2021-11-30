@@ -20,11 +20,7 @@
                 <ColumnDefinition Width="80*"/>
                 <ColumnDefinition Width="5*"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Horizontal" Grid.Column="1" Visibility="Collapsed">
-                <TextBlock Text="标题" VerticalAlignment="Center" Margin="20,0,10,0" FontSize="16" FontWeight="Bold"/>
-                <TextBox x:Name="txtboxTitle" VerticalAlignment="Center" Width="600"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Visibility="Visible">
+            <StackPanel Orientation="Horizontal" Visibility="Visible" Grid.ColumnSpan="2">
                 <Button x:Name="btnOpen" Height="35" Width="35"  Click="btnOpen_Click" ToolTip="打开文件">
                     <Image Source="ICOS/TextEdit/btnopen.png" />
                 </Button>
@@ -34,7 +30,9 @@
                 <Button x:Name="btnPrint" Height="35" Width="35" ToolTip="打印" Click="btnPrint_Click">
                     <Image Source="ICOS/TextEdit/btnPrint.png"/>
                 </Button>
-                <Button x:Name="pdfResolve" Content="OpenPDF" Click="pdfResolve_Click"/>
+                <Button x:Name="pdfResolve" Content="PDF Image" Click="pdfResolve_Click"/>
+                <Button x:Name="pdfResoveText" Content="PDF Text" Click="pdfResoveText_Click"/>
+                <Button Name="wordResove" Content="Word Resolve" Click="wordResove_Click"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal"  Grid.Column="2" HorizontalAlignment="Right">
                 <Button x:Name="btnAddImage" Height="35" Width="35" ToolTip="添加图片" Click="btnAddImage_Click">
@@ -153,7 +151,7 @@
             <Grid Grid.Row="1">
                 <DockPanel>
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
-                        <RichTextBox x:Name="rtbMain" Height="460" Width="380" AcceptsTab="True" VerticalScrollBarVisibility="Auto"  Padding="10">
+                        <RichTextBox x:Name="rtbMain" Height="460" Width="980" AcceptsTab="True" VerticalScrollBarVisibility="Auto"  Padding="10">
                             <RichTextBox.Style>
                                 <Style TargetType="{x:Type RichTextBox}" >
                                     <Setter Property="MinHeight" Value="200"/>

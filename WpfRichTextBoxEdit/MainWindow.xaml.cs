@@ -299,7 +299,48 @@ namespace WpfRichTextBoxEdit
 
             if ((bool)open.ShowDialog())
             {
-                Common.PdfHelp.OpenFile(open.FileName);
+                //Common.PdfHelp.OpenFile(open.FileName);
+                //var pdfHelp = new Common.PdfHelp1();
+                //TextRange textRange = new TextRange(rtbMain.Document.ContentStart, rtbMain.Document.ContentEnd);
+                //textRange.Text = pdfHelp.Text;
+                var pdfHelp = new Common.PdfHelp2();
+                pdfHelp.ExtractImage(open.FileName);
+                foreach (var item in pdfHelp.Images)
+                {
+                    richTxtHelp.InsertImage(item);
+                }
+                
+            }
+        }
+
+        private void pdfResoveText_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog open = new OpenFileDialog();
+            open.FileName = "";
+            open.DefaultExt = ".pdf";
+            open.Filter = "pdf文件(.pdf)|*.pdf";
+
+            if ((bool)open.ShowDialog())
+            {
+                var pdfHelp = new Common.PdfHelp2();
+                pdfHelp.ExtractText(open.FileName);
+                TextRange textRange = new TextRange(rtbMain.Document.ContentStart, rtbMain.Document.ContentEnd);
+                textRange.Text = pdfHelp.Text;
+            }
+                
+        }
+
+        private void wordResove_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog open= new OpenFileDialog();
+            open.FileName = "";
+            open.DefaultExt = ".doc";
+            open.Filter = "word文件(.doc)|*.doc";
+            if ((bool)open.ShowDialog())
+            {
+                var text=Common.WordHelp.GetWordContent(open.FileName);
+                TextRange textRange = new TextRange(rtbMain.Document.ContentStart, rtbMain.Document.ContentEnd);
+                textRange.Text=text;
             }
         }
     }
