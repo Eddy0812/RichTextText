@@ -349,10 +349,10 @@ namespace WpfRichTextBoxEdit
                     app.Selection.Copy();
                     
                     Dispatcher.Invoke(new Action(() => { 
-                        rtbMain.Paste();
+                        rtbMain.Paste();//粘贴需要时间
                         
                         doc.Close();
-                        doc = null;
+                        doc = null;//此时粘贴完成了
                         //app.Quit();//推出app会提示剪贴板中还有内容，不确定默认是清除了还是保存了剪贴板中的内容
                     })
                         );
