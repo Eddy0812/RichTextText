@@ -335,12 +335,21 @@ namespace WpfRichTextBoxEdit
             OpenFileDialog open= new OpenFileDialog();
             open.FileName = "";
             open.DefaultExt = ".doc";
-            open.Filter = "word文件(.doc)|*.doc";
+            open.Filter = "word文件|*.doc;*.docx|所有文件|*.*";
             if ((bool)open.ShowDialog())
             {
-                var text=Common.WordHelp.GetWordContent(open.FileName);
-                TextRange textRange = new TextRange(rtbMain.Document.ContentStart, rtbMain.Document.ContentEnd);
-                textRange.Text=text;
+                new Thread(() => {
+                    Microsoft.Office.Interop.Word.Application app = Common.WordHelp.GetApp(open.FileName);
+                    Dispatcher.Invoke(new Action(() => { 
+                        rtbMain.Paste(); })
+                        );
+                    
+                }).Start();
+                
+                //Clipboard.Clear();
+                //var text=Common.WordHelp.GetWordContent(open.FileName);
+                //TextRange textRange = new TextRange(rtbMain.Document.ContentStart, rtbMain.Document.ContentEnd);
+                //textRange.Text=text;
             }
         }
     }

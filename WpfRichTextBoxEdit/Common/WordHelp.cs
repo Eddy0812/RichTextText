@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Word = Microsoft.Office.Interop.Word;
 
 namespace WpfRichTextBoxEdit.Common
@@ -28,6 +29,7 @@ namespace WpfRichTextBoxEdit.Common
                 ref unknow, ref unknow, ref unknow, ref unknow,
                 ref unknow, ref unknow, ref unknow, ref unknow,
                 ref unknow, ref unknow, ref unknow);
+                app.Selection.Copy();
                 int count = doc.Paragraphs.Count;
                 StringBuilder sb = new StringBuilder();
                 for (int i = 1; i <= count; i++)
@@ -35,7 +37,12 @@ namespace WpfRichTextBoxEdit.Common
 
                     sb.Append(doc.Paragraphs[i].Range.Text.Trim());
                 }
-
+                foreach (Word.Paragraph p in doc.Paragraphs)
+                {
+                    var fText = p.Range.FormattedText;
+                    var tables = p.Range.Tables;
+                    var inlines = p.Range.InlineShapes;
+                }
                 doc.Close(ref unknow, ref unknow, ref unknow);
                 wordType.InvokeMember("Quit", System.Reflection.BindingFlags.InvokeMethod, null, app, null);
                 doc = null;
@@ -54,6 +61,31 @@ namespace WpfRichTextBoxEdit.Common
             {
                 return ex.Message;
             }
+        }
+
+        public static Word.Application GetApp(string path)
+        {
+            Word.Application app = new Microsoft.Office.Interop.Word.Application();
+            Type wordType = app.GetType();
+            Word.Document doc = null;
+            object unknow = Type.Missing;
+            object readOnly = (object)true;
+            app.Visible = true;
+            
+            object file = path;
+            doc = app.Documents.Open(ref file,
+            ref unknow, ref unknow, ref unknow, ref unknow,
+            ref unknow, ref unknow, ref unknow, ref unknow,
+            ref unknow, ref unknow, ref unknow, ref unknow,
+            ref unknow, ref unknow, ref unknow);
+            //doc.SelectAllEditableRanges();
+            doc.Select();
+            app.Selection.Copy();
+            doc.Close(ref unknow, ref unknow, ref unknow);
+            wordType.InvokeMember("Quit", System.Reflection.BindingFlags.InvokeMethod, null, app, null);
+            doc = null;
+            app = null;
+            return app;
         }
     }
 }
