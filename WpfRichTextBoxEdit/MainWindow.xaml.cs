@@ -353,7 +353,7 @@ namespace WpfRichTextBoxEdit
                         
                         doc.Close();
                         doc = null;
-                        //app.Quit();
+                        //app.Quit();//推出app会提示剪贴板中还有内容，不确定默认是清除了还是保存了剪贴板中的内容
                     })
                         );
                     
