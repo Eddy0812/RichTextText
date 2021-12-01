@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using Microsoft.Win32;
 using System.IO;
 using System.Threading;
+using Word = Microsoft.Office.Interop.Word;
 
 namespace WpfRichTextBoxEdit
 {
@@ -26,7 +27,7 @@ namespace WpfRichTextBoxEdit
         public MainWindow()
         {
             InitializeComponent();
-            richTxtHelp = new RichTxtHelp(rtbMain, this);
+            //richTxtHelp = new RichTxtHelp(rtbMain, this);
         }
 
         private void comboBoxFontFamily_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -330,6 +331,7 @@ namespace WpfRichTextBoxEdit
                 
         }
 
+        Word.Application app = new Microsoft.Office.Interop.Word.Application();
         private void wordResove_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog open= new OpenFileDialog();
@@ -338,10 +340,21 @@ namespace WpfRichTextBoxEdit
             open.Filter = "word文件|*.doc;*.docx|所有文件|*.*";
             if ((bool)open.ShowDialog())
             {
+                Word.Document doc=null;
+                
                 new Thread(() => {
-                    Microsoft.Office.Interop.Word.Application app = Common.WordHelp.GetApp(open.FileName);
+
+                    Common.WordHelp.OpenDoc(open.FileName,ref doc,ref app);
+                    doc.Select();
+                    app.Selection.Copy();
+                    
                     Dispatcher.Invoke(new Action(() => { 
-                        rtbMain.Paste(); })
+                        rtbMain.Paste();
+                        
+                        doc.Close();
+                        doc = null;
+                        //app.Quit();
+                    })
                         );
                     
                 }).Start();

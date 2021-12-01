@@ -63,14 +63,14 @@ namespace WpfRichTextBoxEdit.Common
             }
         }
 
-        public static Word.Application GetApp(string path)
+        public static void OpenDoc(string path, ref Word.Document doc, ref Word.Application app)
         {
-            Word.Application app = new Microsoft.Office.Interop.Word.Application();
+            
             Type wordType = app.GetType();
-            Word.Document doc = null;
+            doc = null;
             object unknow = Type.Missing;
             object readOnly = (object)true;
-            app.Visible = true;
+            app.Visible = false;
             
             object file = path;
             doc = app.Documents.Open(ref file,
@@ -79,13 +79,7 @@ namespace WpfRichTextBoxEdit.Common
             ref unknow, ref unknow, ref unknow, ref unknow,
             ref unknow, ref unknow, ref unknow);
             //doc.SelectAllEditableRanges();
-            doc.Select();
-            app.Selection.Copy();
-            doc.Close(ref unknow, ref unknow, ref unknow);
-            wordType.InvokeMember("Quit", System.Reflection.BindingFlags.InvokeMethod, null, app, null);
-            doc = null;
-            app = null;
-            return app;
+            
         }
     }
 }
