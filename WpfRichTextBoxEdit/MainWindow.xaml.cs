@@ -331,7 +331,7 @@ namespace WpfRichTextBoxEdit
                 
         }
 
-        Word.Application app = new Microsoft.Office.Interop.Word.Application();
+        
         private void wordResove_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog open= new OpenFileDialog();
@@ -340,6 +340,7 @@ namespace WpfRichTextBoxEdit
             open.Filter = "word文件|*.doc;*.docx|所有文件|*.*";
             if ((bool)open.ShowDialog())
             {
+                Word.Application app = new Microsoft.Office.Interop.Word.Application();
                 Word.Document doc=null;
                 
                 new Thread(() => {
@@ -347,13 +348,21 @@ namespace WpfRichTextBoxEdit
                     Common.WordHelp.OpenDoc(open.FileName,ref doc,ref app);
                     doc.Select();
                     app.Selection.Copy();
-                    
-                    Dispatcher.Invoke(new Action(() => { 
+                    Dispatcher.Invoke(new Action(() => {
+                        IDataObject iData = Clipboard.GetDataObject();
+                        if (iData.GetDataPresent(DataFormats.Bitmap))
+                        {
+                            var img = Clipboard.GetImage();
+                        }
+                        if (iData.GetDataPresent(DataFormats.Rtf))
+                        {
+                            var rtf = iData.GetData(DataFormats.Rtf);
+                        }
                         rtbMain.Paste();//粘贴需要时间
                         
                         doc.Close();
                         doc = null;//此时粘贴完成了
-                        //app.Quit();//推出app会提示剪贴板中还有内容，不确定默认是清除了还是保存了剪贴板中的内容
+                        app.Quit();//推出app会提示剪贴板中还有内容，不确定默认是清除了还是保存了剪贴板中的内容
                     })
                         );
                     
